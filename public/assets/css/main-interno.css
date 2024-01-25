@@ -1,0 +1,600 @@
+    body,html,*{
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body,html{
+        background-color: #F5F6FA;
+    }
+
+    .componente-archivos{
+        width: 100%; 
+        height: 380px; 
+        background-color: #fafafa; 
+        border-radius: 9px; 
+        border:3px dotted #ccc; 
+        cursor: pointer; 
+        background-size: contain; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+    }
+
+    .componente-archivos .overlay{
+        widows: 100%;
+        height: 375px; 
+        background-color:rgba(0,0,0,0.3);
+        border-radius: 9px; 
+        display: none;
+        position: relative;
+    }
+
+    .componente-archivos button{      
+        display: none;
+    }
+
+    .componente-archivos:hover .overlay{      
+        display: block;
+    }
+
+    .componente-archivos:hover button{      
+        display: block;
+    }
+
+    .menu-interno-cursos{
+        text-align: center;
+        padding-top: 9px;
+        background-color: #0b55861a;
+        border-radius: 10px;
+    }   
+
+    .vjs-big-play-button {
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%);
+        width: 80px!important;
+        height: 50px!important;
+        -webkit-border-radius: 0.8em!important;
+        -moz-border-radius: 0.8em!important;
+        border-radius: 1.9em!important;
+    }
+
+    .modal-usuario{
+        position: absolute; 
+        z-index: 999; 
+        width: 264px; 
+        background-color: #fff;	
+        height: auto;	
+        margin-top: 8px;	
+        right: 0px; 
+        border:1px solid #ccc;
+        box-shadow: 0px 5px 10px 0px #c5c5c5;
+        display: none;
+    }
+
+    .modal-usuario .contenedor{
+        padding: 10px;
+        widows: 100%;
+    }
+
+    .btn-usuario-menu{			
+        margin-left:0px !important; 
+        text-align: left; 
+        color:#000 !important;
+        padding:8px  5px;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .btn-usuario-menu:hover{
+        background:none;
+        background-color: #ccc !important;
+    }
+
+    .list-group-item{
+        padding:7px;
+        font-size: 14px;
+    }
+
+    .titulo-curso-f{
+        margin-top: 0px;
+        position: absolute;
+        right: 7px;
+        border-radius: 0px 0px 8px 8px;
+        top: 56px;
+        background-color: #17a2b8;
+        color: #fff;
+        font-size: 14px;
+        padding: 3px 10px;
+        z-index: 999;
+    }
+
+    .titulos-cursos{
+        width: 100%;
+        padding: 10px;
+        background: -webkit-linear-gradient(47deg, rgb(27, 214, 204) 0%, rgb(10, 182, 236) 100%);
+        background: -o-linear-gradient(47deg, rgb(27, 214, 204) 0%, rgb(10, 182, 236) 100%);
+        background: linear-gradient(137deg, rgb(27, 214, 204) 0%, rgb(10, 182, 236) 100%);
+        text-align: center;
+        border-radius: 50px;
+        color:#fff;
+    }
+
+    .barra_superior{
+        background-color: #0B5586;
+        height: 68px;
+        width: 100%;   
+        position: fixed;     
+        z-index: 999;
+    }
+
+    #btn_cerrar_menu{
+        display: none;
+    }
+
+    .barra_izquierda{
+        background-color: #0B5586;
+        height: 100vh;
+        width: 130px;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        border-right: 2px solid #0B5586;
+        z-index: 9999;
+        overflow-y: auto;
+        display: block;
+    }
+
+    .btn-rounded{
+        width: 48px;
+        height: 48px;
+        background-color: #F5F6FA;
+        display: inline-block;
+        border-radius: 51px;
+    }
+
+    .btn-search{
+        margin-left: 135px;       
+        margin-top: 10px;   
+        display: none;     
+    }
+
+    .btn-search img{
+        width: 23px;
+        height: 23px;
+        margin-top: 12px;
+        margin-left: 12px;
+    }
+
+    .panel-derecha{
+        float: right;
+        width: 150px;        
+    }
+
+    .btn-notificacion{
+        margin-right: 23px;       
+        margin-top: 10px;  
+        display: inline-block;      
+    }
+
+    .btn-notificacion img{
+        width: 23px;
+        height: 23px;
+        margin-top: 12px;
+        margin-left: 12px;
+    }
+
+    .btn-usuario{
+        margin-right: 15px;       
+        margin-top: 10px;   
+        position: absolute;
+    }
+
+    .btn-usuario img{
+        width: 48px;
+        height: 48px;
+    }
+
+    .contenedor-principal{
+        width: 100%;
+        padding-left: 150px;
+        padding-top: 120px;
+        padding-right: 45px;
+        padding-bottom: 40px;
+    }
+
+    h1{
+        font-size: 33px;
+        font-weight: 900;
+        color: #3b465a;
+    }
+
+    .row-docttus{
+        margin:0px;
+        padding: 0px;
+    }
+
+    .card-docttus{
+        background-color: #fff;
+        border-radius: 9px;
+        padding: 15px;          
+        box-shadow: 0px 0 7px 0px #ecebeb;
+        position: relative;
+    }
+
+    .card-docttus-left{
+        height: 512px;
+    }
+
+    .card-docttus-right-1{
+        height: 247px;
+    }
+
+    .card-docttus-right-2{
+        height: 247px;
+        margin-top: 20px;
+    }
+
+    .card-docttus-cursos{
+        height: 245px;
+    }
+
+    .card-docttus .subtitulos{
+        font-size: 25px;
+        font-weight: bold;
+        color: #3b465a;
+        margin-bottom: 25px;
+    }
+
+
+    /*BOTONES BARRA IZQUIERDA*/
+    .btn-inicio{
+        margin-top: 20px;
+    }
+
+    .btn-cursos{
+        margin-top: 15px;
+    }
+
+    .btn-ayudas{
+        margin-top: 15px; 
+    }
+
+    .btn-inicio img{
+        width: 18px; 
+        margin-top: 12px;       
+    }
+
+    .btn-inicio h4{
+        color: #fff !important;
+    }
+
+    .btn-cursos img{
+        width: 28px;
+        margin-top: 14px;  
+    }
+
+    .btn-ayudas img{
+        width: 25px;
+        margin-top: 11px;
+    }
+
+    #panel_ayuda{
+        display: none;
+        position: fixed; width:350px; background-color:#222; top:0px; height:100vh; right:0px; z-index:9999; padding:15px; padding-top:45px; padding-right:25px;
+        overflow-y: auto;
+    }
+
+    .container-boton{
+        width: 100%;
+        height: 100px;        
+        margin-top: 11px;
+    }
+
+    .container-boton h4{
+        color:#fff;
+        padding: 0px;
+        font-size: 15px;
+        font-weight: 300;
+        margin-top: 6px;
+    }
+
+    .card-docttus-cursos h4{
+        display: inline-block;
+        width: 67%;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .botones-docttus{
+        background: -webkit-linear-gradient(47deg, #8A6D35 0%, #FDCF79 100%);
+	    background: -o-linear-gradient(47deg, #8A6D35 0%, #FDCF79 100%);
+	    background: linear-gradient(137deg, #8A6D35 0%, #FDCF79 100%);	
+        border-radius: 28px;
+        border: none;
+        font-size: 16px;        
+        display: inline-block;
+        width: auto;
+        padding-left: 25px;
+        padding-right: 25px;
+        color: #fff;
+    }
+
+    .btn-cursos-iniciar{
+        position: absolute;
+        top: 16px;
+        right: 13px;
+    }
+
+    .btn-ver-mas{
+        position: absolute;
+        right: 21px;
+        top: 28px;
+        font-weight: 600;
+        color: #636363;
+        font-size: 14px;
+    }
+
+    .btn-ver-mas:hover{
+        color: #636363; 
+    }
+
+    .enlace-notificacion{
+        color: #222;
+        text-decoration: none;
+    }
+
+    .enlace-notificacion:hover{
+        text-decoration: none;  
+    }
+
+    .card-curso{
+        transition: transform .2s; /* Animation */
+    }
+
+    .card-curso:hover{
+        transform: scale(1.02);
+        box-shadow: 0px 0 14px 12px #d4d4d4;
+    }
+
+    .btn-vista{
+        background-color: green;
+    }
+
+    .barra-guardar{
+        width:100%; 
+        background-color:#fff; 
+        padding-top:10px; 
+        padding-bottom:10px; 
+        padding-left: 10px;
+        position: absolute;
+        top:53px;           
+        left:0px; 
+        z-index: 999; 
+        box-shadow: 0px 1px 14px 2px #ccc; padding-right:35px;
+        text-align: right;
+    }
+
+    .barra-guardar button{
+        float: right;
+    }
+
+
+    .barra-guardar  .titulo_curso{
+        width: 257px;
+        height: 32px;
+        display: inline-block;         
+    }
+
+    .barra-guardar  .titulo_curso p{
+        font-size: 18px;
+        color: #0b5586;
+        font-weight: 300;
+        margin: 0px;
+        margin-top: 0px;
+        display: table-cell;
+        vertical-align: middle;
+        height: 42px;
+    }       
+
+    .numero-notificacion{
+        position: absolute;
+        top: 3px;
+        padding: 4px;
+        right: -2px;
+        background-color: #ce2020;
+        color: #fff;
+        font-size: 11px;
+        width: 24px;
+        text-align: center;
+        border-radius: 25px;
+    }
+
+    .btn-notificacion{
+        position: relative;
+    }
+
+    .card-docttus small{
+        font-size: 11px;
+        color: #8b8692;
+    }
+
+    .card-docttus .icono{
+        font-size: 13px;
+        margin-right: 6px;
+    }
+
+    .card-docttus .fila-info{
+        text-align: center;
+        margin-top: 21px;
+    }
+
+    .info-curso{
+        width: 400px;
+        margin-top: 25px;
+        margin-bottom: 45px;
+    }
+
+    .foto-usuario{
+        width: 100px;
+        height: 100px;
+        display: inline-block;
+        background-color: #d8d8d8;
+        border-radius: 150px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .btn-redes{
+        width: 38px;
+        height: 38px;
+        font-size: 20px;
+        padding-top: 3px;
+        padding-left: 10px;
+
+        background: -webkit-linear-gradient(47deg, rgb(27, 214, 204) 0%, rgb(10, 182, 236) 100%);
+        background: -o-linear-gradient(47deg, rgb(27, 214, 204) 0%, rgb(10, 182, 236) 100%);
+        background: linear-gradient(137deg, rgb(27, 214, 204) 0%, rgb(10, 182, 236) 100%);      
+        border-color: transparent !important;
+    }
+
+    .descripcion-curso{     
+        padding:35px;  
+    }
+
+    .habiliadd{
+        margin-right: 22px;
+        box-shadow: 0px 0px 6px 2px #dadada;
+        border-radius: 25px;
+    }
+
+    .btn-mensajes{
+        background-color:#70b851;
+        border-radius: 25px;
+        padding: 5px 20px;
+        border:none;
+        margin-top: 15px;
+    }
+
+    .titulo-mensaje{        
+        font-size: 18px;
+        margin-top: 17px;
+    }
+
+    .titulo-mensaje-exito{
+        color: #a9d497;
+    }
+
+    .titulo-mensaje-error{
+        color: red;        
+    }
+
+    .icono-mensaje-1,.icono-mensaje-2{
+        width: 80px;
+    }
+
+    .td_estado{
+        width: 76px;
+    }
+
+    .td_estado small{
+        position: absolute;
+        bottom:1px;
+        right: 5px;
+        color: #ccc;
+    }
+
+    @media only screen and (max-width: 991px) {
+
+        .td_estado{
+            width: 0px;
+        }
+
+        .td_estado small{
+            position: absolute;
+            top:1px;
+            right: 5px;
+        }
+        
+        .barra-guardar button span{
+            display: none;
+        }
+
+        .barra-guardar button{
+            width: 40px;
+            padding: 0px;
+            height: 40px;
+            margin-right: -24px;
+        }         
+        
+        .menu-intero{
+            position: fixed;
+            bottom: 0px;
+            left: 0;
+            width: 100%;
+            z-index: 99999999;
+            background-color:#fff;
+            overflow-x: auto;
+            box-shadow: 0px -3px 11px #ccc;
+        }
+
+        .menu-interno-cursos{
+            width: 733px;
+            height: 91px;
+            padding: 10px;
+        }
+
+        .menu-interno-cursos .btn-tab-dt{
+            margin-right: 3px;
+            padding:5px;
+            width: 80px;
+        }
+
+        .btn-search{
+            display: inline-block;
+            left: 5px;
+            position: absolute;
+            margin-left: 5px;
+        }
+
+        .card-docttus{
+            margin-bottom: 25px;
+        }
+
+        .barra_izquierda{
+            display: none;
+            width: 100%;
+        }
+
+        .contenedor-principal{
+            padding: 10px;
+            padding-top: 87px;
+        }
+
+        h1{
+            font-size: 26px;
+        }
+
+        .main-header{
+            position: fixed;
+            width: 100%;
+            top: 0px;
+        }
+
+        .content-principal{
+            margin-top: 86px;
+        }
+
+        .main-sidebar{          
+            margin-top: 250px;
+            margin-top: 0px;
+            position: fixed !important;
+        }
+
+        .titulo-curso-f{
+            margin-top: 0px;
+            position: absolute;
+        }
+
+    }
+
+ 

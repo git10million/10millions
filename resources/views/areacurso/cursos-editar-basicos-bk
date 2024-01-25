@@ -1,0 +1,730 @@
+@extends('areacurso.plantillas.plantilla-area-interna')
+@section('contenido')   
+
+<style type="text/css">
+  .descripcion-curso{
+     height: 550px;
+     overflow-y: auto;
+     margin-top: 45px;
+  }
+  .contenedor-principal{
+    /*background-color: #fff;*/
+  }
+  .etiqueta-curso{
+    position: absolute;
+    top: 0px;
+    font-size: 11px;
+    color: #fff;    
+    padding: 2px 18px;
+    border-radius: 0px 0px 8px 8px;
+    left: 14px;
+  }
+
+  .btn-group-toggle a{
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .class-embed{
+    display:none;
+  }
+</style>
+ 
+
+<div class="row row-docttus">
+  <h4 class="titulo-curso-f">{{$curso->NombreCurso}}</h4>
+    
+    <div class="col-md-8">
+        
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-info active">
+            <a href="{{url('')}}/cursos/editar-basicos/{{$curso->CodigoCurso}}">
+              <input type="radio" name="options" id="option1" checked> Básico
+            </a>
+          </label>
+          <label class="btn btn-secondary ">
+            <a href="{{url('')}}/cursos/editar-modulos/{{$curso->CodigoCurso}}">
+              <input type="radio" name="options" id="option2"> Módulos 
+            </a>
+          </label>
+
+                              
+        </div>
+
+    </div>
+    @if(session('rol_solicitud')!="root")
+    <div class="col-md-4" style="text-align: right;">
+      @if($curso->IdEstado==3)
+      <button class="btn btn-warning"  data-toggle="modal" data-target="#cambios_de_estado">ENVIAR A REVISIÓN</button>
+      @elseif($curso->IdEstado==1)
+      <button class="btn btn-success">APROBADO</button>      
+      @elseif($curso->IdEstado==4)
+      <button class="btn btn-secondary">EN REVISIÓN</button>
+      @endif
+
+      <button type="button" class="btn btn-success" id="btn_vista_previa">Vista Previa</button>
+
+    </div>
+    @endif
+</div>
+        
+<hr />
+
+<div class="row row-docttus" style="margin-bottom: 25px;">
+   <!--  tarjeta Curso --> 
+   <div class="col-md-6">
+     <div class="card-docttus card-docttus-left" style=" height: auto !important; position: relative;">
+        <h3>Información Básica</h3>
+        <form id="form-editar-curso">
+            <div class="form-group  input-group-sm">                        
+               <label>Título Curso</label>
+               <input id="NombreCurso" type="text" name="nombre" class="form-control"  value="{{$curso->NombreCurso}}">
+            </div>
+
+            <div class="form-group">    
+                <?php 
+                  $SlugCurso=$curso->SlugCurso;                  
+                ?>                    
+               <label>URL Curso</label>
+               
+               <input type="text" class="form-control" id="SlugCurso" value="{{$SlugCurso}}" readonly> 
+
+               
+            </div>
+
+            <div class="form-group  input-group-sm">                        
+               <label>Categoría</label>
+               <select class="form-control" id="IdSubcategoria">
+                   @foreach($categorias as $categoria)
+
+                      <optgroup label="{{$categoria->NombreCategoria}}">
+                        
+                        
+                      @foreach($subcategorias as $subcat)
+                        @if($subcat->IdCategoria==$categoria->IdCategoriaCursos)
+                          @if($subcat->IdSubcategoria==$curso->IdSubcategoria)
+                            <option selected value="{{$subcat->IdSubcategoria}}">{{$subcat->NombreSubcategoria}}</option>
+                          @else
+                            <option value="{{$subcat->IdSubcategoria}}">{{$subcat->NombreSubcategoria}}</option>
+                          @endif
+
+                        @endif
+                      @endforeach
+
+
+                      </optgroup>
+
+                    @endforeach
+               </select>
+            </div>
+
+            <div class="form-group  input-group-sm">
+               <label>Descripción Corta</label>
+               <textarea class="form-control" id="DescripcionCortaCurso" maxlength="250">{{$curso->DescripcionCortaCurso}}</textarea>
+               <small> <strong id="cant_caracteres_1">250</strong> Carácteres Restantes</small>  
+            </div>
+
+            <div class="form-group input-group-sm">
+               <label>Descripción Completa Del Curso</label>
+               <textarea class="form-control html-paginas" id="DescripcionCurso">{{$curso->DescripcionCurso}}</textarea>
+            </div>
+
+
+            <div class="form-group input-group-sm">
+               <label>Audiencia</label>
+               <textarea class="form-control" id="AudienciaCurso">{{$curso->AudienciaCurso}}</textarea>
+            </div>
+
+          
+            <div class="form-group input-group-sm">
+               <label>Prerrequisitos</label>
+               <textarea class="form-control" id="PrerrequisitoCurso">{{$curso->PrerrequisitoCurso}}</textarea>
+            </div>
+
+
+            <div class="form-group input-group-sm">
+              <label>Nivel</label>
+              <select class="form-control" id="IdNivelCurso">
+                @foreach($niveles as $nivel)
+                <option value="{{$nivel->IdNivel}}">{{$nivel->NombreNivel}}</option>
+                @endforeach                
+              </select>
+           </div>
+
+
+
+            <div class="form-group input-group-sm">
+              <label>Afiliación Automática</label>
+              <select class="form-control" id="AprobacionAutomatica">
+                <option value="1">SI</option>
+                <option value="0">NO</option>
+              </select>
+           </div>
+
+           <div class="form-group input-group-sm">
+            <label>URL Material Promocional</label>
+            <input class="form-control" id="URLMaterialPromocional" value="{{$curso->URLMaterialPromocional}}">
+         </div>
+
+           
+
+           
+
+            @if(session('rol_solicitud')!="root")
+            <div class="row">
+               <div class="col-md-4">
+                  @if($curso->IdEstado==3 || $curso->IdEstado==1)
+                    <input type="submit" name="" class="btn btn-secondary botones-docttus" style="margin-top: 25px;" value="Guardar">
+                  @else
+                  <button type="button" disabled name="" class="btn btn-secondary " style="margin-top: 25px; background-color:gray !important; border-radius:25px;">
+                      Guardar
+                  </button>
+                  @endif
+               </div>
+            </div>
+            @endif
+
+        </form>
+
+     </div>
+   </div>
+
+   <div class="col-md-6">
+     <div class="card-docttus card-docttus-left" style="height: auto !important; position: relative;">
+        <h3>Presentación</h3>
+        <form id="form-editar-curso-imagenes">
+
+          <div class="row">
+            <!-- IMAGEN CURSO -->
+            <div class="col-md-6">
+                <label>Imagen Curso</label>
+                <?php
+                $imagen_curso="seleccionar_imagen.jpg";
+                if($curso->ImagenCurso!="" && $curso->ImagenCurso!="curso-base.jpg" ){
+                    $imagen_curso=$curso->ImagenCurso;
+                }
+                ?>
+                <div style="width: 100%; height: 250px; background-color: #fafafa; border-radius: 9px; border:3px dotted #ccc; cursor: pointer; background-size: contain; background-position: center; background-repeat: no-repeat; background-image: url('{{url('')}}/assets/images/cursos/{{$imagen_curso}}');" onclick="getFotoCurso('ImagenCurso');" id="prev_ImagenCurso">
+                          
+                </div>
+                <input id="ImagenCurso" type="file" name="nombre" class="form-control" style="display: none;" onchange="seleccionar_imagen('ImagenCurso')">
+
+               
+
+                <ul>
+                  <li><small>Tamaño: 730px X 390px</small></li>
+                  <li><small>Extensiones Aceptadas: .jpg o .png</small></li>
+                  <li><small>Peso Imágen: Menor a 300Kb</small></li>
+                </ul>
+                
+            </div>
+            <!-- PORTADA CURSO -->
+            <div class="col-md-6">
+                <label>Slide Curso</label>
+                <?php
+                               
+                    
+                    $slide_curso="seleccionar_imagen.jpg";
+                    if($curso->SlideCurso!="" && $curso->SlideCurso!="header-bg.jpg" ){
+                        $slide_curso=$curso->SlideCurso;
+                    }
+                
+                ?>
+                <div style="width: 100%; height: 250px; background-color: #fafafa; border-radius: 9px; border:3px dotted #ccc; cursor: pointer; background-size: contain; background-position: center; background-repeat: no-repeat; background-image: url('{{url('')}}/assets/images/cursos/{{$slide_curso}}');" onclick="getFotoCurso('SlideCurso');" id="prev_SlideCurso">
+                          
+                </div>
+                <input id="SlideCurso" type="file" name="nombre" class="form-control" style="display: none;"  onchange="seleccionar_imagen('SlideCurso')">
+                <ul>
+                  <li><small>Tamaño: 1920px X 600px</small></li>
+                  <li><small>Extensiones Aceptadas: .jpg o .png</small></li>
+                  <li><small>Peso Imágen: Menor a 300Kb</small></li>
+                </ul>
+                
+            </div>
+
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-md-12" >              
+              
+              <div class="form-group  input-group-sm" style="background-color: #fafafa; padding:10px; border-radius:9px; border:2px dotted #ccc; ">
+                <label>Video Presentación</label>
+
+                <select class="form-control" id="TipoVideo" onchange="cambio_tipo_video(this.value)">
+                  <option value="1">Subir Video</option>
+                  <option value="2">URL de Youtube</option>
+                  <option value="3">URL de Vimeo</option>
+                </select>
+
+                <input id="VideoCurso" type="text" name="nombre" class="form-control class-embed"  value="{{$curso->VideoCurso}}" style="margin-top: 5px;">
+                <small class="class-embed">URL del Video en <span id="nombre_tipo_video" >Youtube</span></small>
+
+                <div id="cnv_subir_video">
+                  <input class="form-control" type="file" id="SubirVideoFile"  style="margin-top: 5px;"> 
+                  <ul>
+                    <li><small>Tamaño Recomendado: 1920px X 1080px</small></li>
+                    <li><small>Extensiones Aceptadas: .mp4</small></li>
+                    <li><small>Peso Video: Menor a 800Mb</small></li>
+                  </ul>
+                </div>
+                
+              </div>
+            </div>
+            
+          </div>
+            
+                      
+            
+          @if(session('rol_solicitud')!="root")
+            <div class="row">
+               <div class="col-md-12">
+
+                  <div class="progress" id="barra_progreso" style="display:none;">
+                    <div class="progress-bar " role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                  </div>
+
+
+                  @if($curso->IdEstado==3 || $curso->IdEstado==1)
+                    <input type="submit" name="" class="btn btn-secondary botones-docttus" style="margin-top: 25px;" value="Guardar">
+                  @else
+                  <button type="button" disabled name="" class="btn btn-secondary " style="margin-top: 25px; background-color:gray !important; border-radius:25px;">
+                      Guardar
+                  </button>
+                  @endif
+               </div>
+            </div>
+          @endif
+
+        </form>
+
+     </div>
+
+
+
+     <div class="card-docttus card-docttus-left" style="margin-top: 25px;  height: auto !important; position: relative;">
+        <h3>Precios</h3>
+        <form id="form-editar-curso-precios">
+            <div class="form-group  input-group-sm">                        
+               <label>* Precio</label>
+               <input id="PrecioCurso" type="number" class="form-control"  value="{{$curso->PrecioCurso}}" required>
+            </div>           
+
+            <div class="form-group  input-group-sm">                        
+               <label>* Descuento (%)</label>
+               <input id="DescuentoCurso" type="number" class="form-control"  value="{{$curso->DescuentoCurso}}" required maxlength="2" max="100" min="0">
+            </div>           
+
+            
+
+            
+
+            @if(session('rol_solicitud')!="root")
+            <div class="row">
+               <div class="col-md-4">
+                  @if($curso->IdEstado==3 || $curso->IdEstado==1)
+                    <input type="submit" name="" class="btn btn-secondary botones-docttus" style="margin-top: 25px;" value="Guardar">
+                  @else
+                  <button type="button" disabled name="" class="btn btn-secondary " style="margin-top: 25px; background-color:gray !important; border-radius:25px;">
+                      Guardar
+                  </button>
+                  @endif
+               </div>
+            </div>
+            @endif
+
+        </form>
+
+     </div>
+
+
+
+
+   </div>
+  <!--  tarjeta Curso --> 
+  
+</div>
+
+
+
+
+<!-- Modal -->
+  <div class="modal fade" id="cambios_de_estado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel2">Enviar a Revisión</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="text-align: center;">
+          @if($curso->IdEstado==3)
+           <h3>El curso entrará en proceso de revisión por parte del equipo de Docttus.</span></h3>
+           <p>Este proceso podrá tomar entre 12 a 24 horas.</p>
+           <h5>¿Deseas continuar con el proceso?</h5>
+          @endif
+          
+        </div>
+        <div class="modal-footer" style="text-align: center; width: 100%; display: inline-block;">
+          <center>
+            <button type="button" class="btn btn-secondary botones-docttus" data-dismiss="modal" id="btn_estado_revision">Aceptar</button>                
+            <button type="button" class="btn btn-danger" data-dismiss="modal" style="border-radius: 25px;">Cancelar</button>                  
+          </center>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+@stop
+
+@section('scripts')
+
+  <script src="{{url('')}}/assets/tinymce/js/tinymce/tinymce.min.js"></script>
+  <script src="{{url('')}}/assets/tinymce/js/tinymce/jquery.tinymce.min.js"></script>
+  @php 
+    if(!$curso->AprobacionAutomatica){
+      $curso->AprobacionAutomatica="0";
+    }
+  @endphp
+  
+    <script type="text/javascript">
+
+      $(function(){                
+        
+        $("#AprobacionAutomatica").val("{{$curso->AprobacionAutomatica}}");
+        $("#IdNivelCurso").val("{{$curso->IdNivelCurso}}");
+        
+        $("#TipoVideo").val("{{$curso->TipoVideo}}");
+        cambio_tipo_video($("#TipoVideo").val());
+        
+      });
+
+      var texto_arti=$("#DescripcionCortaCurso").val();
+      var cant_total_char=250;
+      var cant_actual=cant_total_char-texto_arti.length;
+      $("#cant_caracteres_1").html(""+cant_actual);      
+
+
+      tinymce.init({
+          height:"224",
+
+          setup: function (ed) {
+              ed.on('init', function(args) {
+                 //$("#cargar-componentes").modal("hide");
+              });
+          },
+
+
+        selector: ".html-paginas",
+
+          
+        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt 42pt 52pt',
+
+        relative_urls : false,
+
+        remove_script_host : false,
+        extended_valid_elements : "ins[class|style|data-ad-client|data-ad-slot],a[id|class|name|href|target|title|onclick|rel|data-toggle|data-parent],script[async|type|src],iframe[src|style|width|height|scrolling|marginwidth|marginheight|frameborder|allowfullscreen|class],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style|id|onclic]",
+          plugins: [
+              "advlist autolink lists link image charmap print preview anchor",
+              "searchreplace visualblocks code fullscreen",
+              "insertdatetime media table contextmenu paste",
+              "textcolor colorpicker"
+          ],
+          toolbar: "insertfile undo redo | fontsizeselect | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | forecolor backcolor"
+      });
+
+
+     
+      getFotoCurso = function($idcomponente) {
+        $('#'+$idcomponente).attr('accept', '.jpg, .png');
+        $('#'+$idcomponente).show();
+        $('#'+$idcomponente).focus();
+        $('#'+$idcomponente).click();
+        $('#'+$idcomponente).hide();
+      }
+
+
+      // INFORMACIÓN BÁSICA
+
+      $("#NombreCurso").focusout(function(){
+        var slugBasicos=$("#NombreCurso").val();
+        slugBasicos=slug(slugBasicos);
+        
+          $("#SlugCurso").val(""+slugBasicos+"-{{$curso->CodigoCurso}}");
+        
+      });
+
+      $("#SlugCurso").focusout(function(){
+        var slugBasicos=$("#SlugCurso").val();
+        slugBasicos=slug(slugBasicos);
+        
+        //$("#SlugCurso").val(""+slugBasicos+"-{{$curso->CodigoCurso}}");
+        
+      });
+
+
+      function slug(str) {
+        str = str.replace(/^\s+|\s+$/g, ''); // trim
+        str = str.toLowerCase();
+      
+        // remove accents, swap ñ for n, etc
+        var from = "àáãäâèéëêìíïîòóöôùúüûñç·/_,:;";
+        var to   = "aaaaaeeeeiiiioooouuuunc------";
+
+        for (var i=0, l=from.length ; i<l ; i++) {
+            str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+        }
+
+        str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+            .replace(/\s+/g, '-') // collapse whitespace and replace by -
+            .replace(/-+/g, '-'); // collapse dashes
+
+        return str;
+    }
+
+
+      $("#form-editar-curso").submit(function(e){
+        e.preventDefault();
+
+        var NombreCurso=""+$("#NombreCurso").val();
+        var SlugCurso=""+$("#SlugCurso").val();
+        var IdSubcategoria=""+$("#IdSubcategoria").val();
+        var DescripcionCortaCurso=""+$("#DescripcionCortaCurso").val();        
+        var DescripcionCurso=""+tinymce.get('DescripcionCurso').getContent();
+        var AudienciaCurso=""+$("#AudienciaCurso").val();        
+        var PrerrequisitoCurso=""+$("#PrerrequisitoCurso").val();
+        var URLMaterialPromocional=""+$("#URLMaterialPromocional").val();
+        
+        
+        var AprobacionAutomatica=""+$("#AprobacionAutomatica").val();
+        var IdNivelCurso=""+$("#IdNivelCurso").val();      
+        
+
+        var formData = new FormData();
+        formData.append('NombreCurso', NombreCurso);
+        formData.append('SlugCurso', SlugCurso);
+        formData.append('IdSubcategoria', IdSubcategoria);
+        formData.append('DescripcionCortaCurso', DescripcionCortaCurso);
+        formData.append('DescripcionCurso', DescripcionCurso);
+        formData.append('AudienciaCurso', AudienciaCurso);
+        formData.append('PrerrequisitoCurso', PrerrequisitoCurso);      
+        formData.append('URLMaterialPromocional', URLMaterialPromocional);
+        formData.append('AprobacionAutomatica', AprobacionAutomatica);        
+        formData.append('IdNivelCurso', IdNivelCurso);        
+        
+
+        guardar_informacion(formData,"editarinformacionbasica");
+
+      });
+
+      function guardar_informacion(campos,funcionlv){
+
+        campos.append('CodigoCurso', "{{$curso->CodigoCurso}}");
+        campos.append('_token', "{{ csrf_token() }}");        
+        campos.append('token_curso', "{{ $token_curso }}");
+
+        
+        var request = $.ajax({
+            url: "{{url('')}}/"+funcionlv,
+            type: "POST",
+            data: campos,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+            cache:false,
+            xhr        : function ()
+                {
+                    var jqXHR = null;
+                    if ( window.ActiveXObject )
+                    {
+                        jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
+                    }
+                    else
+                    {
+                        jqXHR = new window.XMLHttpRequest();
+                    }
+
+                    //Upload progress
+                    jqXHR.upload.addEventListener( "progress", function ( evt )
+                    {
+                        if ( evt.lengthComputable )
+                        {
+                            var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+                            //Do something with upload progress
+
+                            if(funcionlv=="editarimagenescurso"){
+
+                                $("#barra_progreso").show();
+                                progress_bar_video(percentComplete);
+
+                            }
+
+                            console.log( 'Uploaded percent', percentComplete );
+                            
+                        }
+                    }, false );
+
+                    //Download progress
+                    jqXHR.addEventListener( "progress", function ( evt )
+                    {
+                        if ( evt.lengthComputable )
+                        {
+                            var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+                            //Do something with download progress
+                            console.log( 'Downloaded percent', percentComplete );
+                            if(funcionlv=="editarimagenescurso"){
+                              $("#barra_progreso").show();
+                              progress_bar_video(percentComplete);
+                            }
+
+                        }
+                    }, false );
+
+                    return jqXHR;
+                }
+
+
+
+          });
+
+          request.done(function(obj) { 
+             if(obj.status=="ok"){            
+                $("#responder_comentarios").modal("hide");
+                mensaje_generico("Correcto",""+obj.mensaje,"1","Continuar...",function(){
+                  //location.reload();
+                });
+
+                return;
+             }else{
+                $("#responder_comentarios").modal("hide");
+                mensaje_generico("Error !",""+obj.mensaje,"2","Continuar...",function(){});
+                return;
+             }
+          });
+           //respuesta si falla
+          request.fail(function(jqXHR, textStatus) {
+            alert( "Error de servidor  " + textStatus );
+          });
+
+
+      }
+
+
+
+    $("#DescripcionCortaCurso").keyup(function(e){
+      var texto_arti=$("#DescripcionCortaCurso").val();
+      var cant_total_char=250;
+      var cant_actual=cant_total_char-texto_arti.length;
+      $("#cant_caracteres_1").html(""+cant_actual);      
+    });
+
+
+      //ENVÍO DE PRECIOS
+      $("#form-editar-curso-precios").submit(function(e){
+        e.preventDefault();
+
+        var PrecioCurso=""+$("#PrecioCurso").val();
+        var DescuentoCurso=""+$("#DescuentoCurso").val();
+        var PorcentajeAfiliados="";        
+
+        var formData = new FormData();        
+             
+        
+        formData.append('PrecioCurso', PrecioCurso);
+        formData.append('DescuentoCurso', DescuentoCurso);
+        formData.append('PorcentajeAfiliados', PorcentajeAfiliados);                
+       
+        guardar_informacion(formData,"editarprecioscurso");
+
+
+      });
+
+
+
+      $("#form-editar-curso-imagenes").submit(function(e){        
+        e.preventDefault();        
+
+        var formData = new FormData();                     
+        
+        formData.append('ImagenCurso', $("#ImagenCurso")[0].files[0]);
+        formData.append('SlideCurso', $("#SlideCurso")[0].files[0]);        
+        if($("#SubirVideoFile")[0].files[0]){
+            $("#VideoCurso").val("");
+        }
+        formData.append('VideoCurso',$("#VideoCurso").val());
+        formData.append('SubirVideoFile',$("#SubirVideoFile")[0].files[0]);
+        formData.append('TipoVideo',$("#TipoVideo").val());
+
+        guardar_informacion(formData,"editarimagenescurso");
+
+
+      });
+
+
+      
+
+
+      function seleccionar_imagen(id_imag){
+        if ($('#'+id_imag)[0].files[0]){
+            var pathGaleria = "";
+            pathGaleria = URL.createObjectURL($('#'+id_imag)[0].files[0]);
+            $("#prev_"+id_imag).css("background-image","url('"+pathGaleria+"')");         
+            
+        }else{
+            $("#prev_"+id_imag).css("background-image","url('"+pathGaleria+"')");         
+        }
+      }
+
+      //ENVÍO DE PRECIOS
+      $("#btn_estado_revision").click(function(e){
+        e.preventDefault();
+
+        var formData = new FormData();
+        guardar_informacion(formData,"cambiarestadorev");
+
+      });
+
+
+      function cambio_tipo_video(tipo_video){
+        $("#cnv_subir_video").hide();
+        $(".class-embed").show();
+        if(tipo_video=="1"){
+          $("#cnv_subir_video").show();
+          $(".class-embed").hide();
+        }else if(tipo_video=="2"){
+          $("#nombre_tipo_video").html("Youtube");
+        }else{
+          $("#nombre_tipo_video").html("Vimeo");
+        }
+
+
+      }
+      
+      function progress_bar_video(porcent_envio){
+        $("#barra_progreso .progress-bar").css("width",porcent_envio+"%");
+        $("#barra_progreso .progress-bar").attr("aria-valuenow",""+porcent_envio);
+        $("#barra_progreso .progress-bar").html(porcent_envio+"%");
+        $("#barra_progreso .progress-bar").removeClass("bg-success");
+
+        if(porcent_envio>=100){
+          $("#barra_progreso .progress-bar").addClass("bg-success");
+          
+        }
+
+        //<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+      }
+
+
+      $("#btn_vista_previa").click(function(){
+        window.open("{{url('')}}/c/{{$SlugCurso}}","_blank");
+      });
+
+
+    </script>
+@stop
